@@ -46,6 +46,7 @@ func Test_GetHeader(t *testing.T) {
 	test_GH_do(t, "x# t", 0, "")
 	test_GH_do(t, " ##\tl", 2, "\tl")
 
-	//TODO:
 	test_GH_do(t, "####### t", 0, "")
 }
+
+//TODO: testing non-ascii characters

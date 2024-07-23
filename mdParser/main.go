@@ -5,8 +5,14 @@ import (
 )
 
 type Header struct {
-	Level int
+	level int
 	Text string
+}
+func (self *Header) IsHeader() bool {
+	return self.level != 0
+}
+func (self *Header) GetLevel() int {
+	return self.level - 1
 }
 
 func StripLeadingSpaces(s string) string {
@@ -24,7 +30,10 @@ func StripLeadingSpaces(s string) string {
 		return ""
 	}
 
-	return s[3:] //TODO does this work with non ascii
+	return s[3:] //TODO does this work with non ascii | and below
+		//it does not. looking here: https://groups.google.com/g/golang-nuts/c/YyKlLwuWt3w for a solution
+		//can cast string to []rune ?? Yes: https://go.dev/ref/spec#Conversions
+			// it will convert properly. Thats so slick
 }
 
 
@@ -33,13 +42,13 @@ func GetHeader(s string) (h Header) {
 
 	var measured bool
 	for i,v := range s {
-		if (v == ' ' || v == '\t' || h.Level == '\n') { //TODO: \n is not on the end because of scan()
-			h.Level = i
+		if (v == ' ' || v == '\t' || h.level == '\n') { //am using with Scanner which strips the \n
+			h.level = i
 			measured = true
 			break
 		}
 		if (v != '#') {
-			h.Level = 0
+			h.level = 0
 			measured = true
 			break
 		}
@@ -47,16 +56,16 @@ func GetHeader(s string) (h Header) {
 	}
 
 	if (!measured) {
-		h.Level = len(s)
+		h.level = len(s)
 		return 
 	}
 	
-	if (h.Level > 6) {
-		h.Level = 0
+	if (h.level > 6) {
+		h.level = 0
 		return
 	}
-	if (h.Level != 0) {
-		h.Text = s[h.Level:]
+	if (h.level != 0) {
+		h.Text = s[h.level:]
 	}
 
 	return
