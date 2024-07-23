@@ -4,6 +4,9 @@ package main
 import (
 	"os"
 	"fmt"
+
+	"github.com/GreyKeenan/pj.ghmd/subcommands/index"
+
 )
 
 const VERSION = "v0.0.0"
@@ -18,7 +21,7 @@ func main() {
 	
 	switch (os.Args[1]) {
 		case "index":
-			fmt.Println("todo")
+			index.Main(os.Args[1:])
 		default:
 			fmt.Printf("sub-command: \"%v\" not recognized. Currently, \"index\" is the only option.", os.Args[1])
 	}
