@@ -22,24 +22,42 @@ func (ic *indexCounter) increment(level int) {
 		ic.levelCounts[i] = 0
 	}
 }
+func (ic *indexCounter) buildHeaderID(level int) (s string) {
+	s += fmt.Sprint(ic.levelCounts[0])
+	for i := 1; i <= level; i++ {
+		s += "-" + fmt.Sprint(ic.levelCounts[i])
+	}
+	return
+}
 
-func (ic *indexCounter) writeIndexLine(header mdParser.Header) (s string) {
+func (ic *indexCounter) buildIndexLine(header mdParser.Header) (s string) {
 
 	var level int = header.GetLevel()
+	ic.increment(level)
 
 	for i := 0; i < level; i++ {
 		s += "\t"
 	}
 	s += bullet
 
-	ic.increment(level)
+	s += "["
 
-	s += fmt.Sprint(ic.levelCounts[0])
-	for i := 1; i <= level; i++ {
-		s += "-" + fmt.Sprint(ic.levelCounts[i])
-	}
+	//var id string = ic.buildHeaderID(level)
 
 	s += header.Text
+
+	s += "](#"
+
+	//var alphanumFound bool
+	for _,v := range header.Text {
+		if v == ' ' {
+			s += "-"
+			continue
+		}
+	}
+
+	s+= ")"
+
 	s += "\n"
 
 	return
@@ -80,8 +98,10 @@ func Main() (err error) {
 	}
 
 
+	var ic indexCounter
+
 	for _,v := range headers {
-		fmt.Println(v.Text)
+		fmt.Println(ic.buildIndexLine(v))
 	}
 	
 	return

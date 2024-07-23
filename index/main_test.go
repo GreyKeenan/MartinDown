@@ -18,7 +18,7 @@ func test_getHeader(s string) (header mdParser.Header) {
 }
 
 func test_IC_WIL(t *testing.T, ic *indexCounter, inH mdParser.Header, ex string, exIc [6]int) {
-	var s string = ic.writeIndexLine(inH)
+	var s string = ic.buildIndexLine(inH)
 	if (s != ex) {
 		t.Fatalf("got '%v' from (%v, %v) instead of '%v'", s, inH.GetLevel(), inH.Text, ex)
 		return
@@ -28,7 +28,7 @@ func test_IC_WIL(t *testing.T, ic *indexCounter, inH mdParser.Header, ex string,
 		return
 	}
 }
-func Test_indexCounter_writeIndexLine(t *testing.T) {
+func Test_indexCounter_buildIndexLine(t *testing.T) {
 
 	var ic indexCounter
 

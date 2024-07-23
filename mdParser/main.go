@@ -1,6 +1,8 @@
 
 package mdParser
 
+//honestly might make more since as a module than a package but this is fine since its incomplete
+
 import (
 )
 
@@ -37,7 +39,8 @@ func StripLeadingSpaces(s string) string {
 }
 
 
-func GetHeader(s string) (h Header) {
+func GetHeader(s string) (h Header) { // only ATX, not SETEXT
+	//TODO: doesnt respect quoted/code-blocked non-headers
 	s = StripLeadingSpaces(s)
 
 	var measured bool
