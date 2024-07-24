@@ -36,7 +36,7 @@ func write_index(outputFile *os.File, headers []gfm.Header) error {
 
 	var ic indexCounter
 
-	_, err = outputFile.WriteString(output_Leader)
+	_, err = outputFile.WriteString(buildIndexLeader())
 	if (err != nil) {
 		return err
 	}

@@ -7,8 +7,6 @@ import (
 	"github.com/GreyKeenan/pj.ghmd/gfm"
 )
 
-const output_Leader = "> auto-index ~~courtesy~~ fault of github.com/GreyKeenan/pj.ghmd\n<!-- index generated using github.com/GreyKeenan/pj.ghmd -->\n\n"
-
 /*
 func buildHeaderId(ic *indexCounter, level int, splitter string) string {
 	var s string = fmt.Sprint(ic.levelCounts[0])
@@ -20,6 +18,9 @@ func buildHeaderId(ic *indexCounter, level int, splitter string) string {
 }
 */
 
+func buildIndexLeader() string {
+	return "> auto-index ~~courtesy~~ fault of github.com/GreyKeenan/pj.ghmd\n<!-- index generated using github.com/GreyKeenan/pj.ghmd -->\n\n"
+}
 func buildIndexFollower(ic *indexCounter) string {
 	var s string
 
