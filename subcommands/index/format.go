@@ -7,8 +7,7 @@ import (
 	"github.com/GreyKeenan/pj.ghmd/gfm"
 )
 
-const output_Leader = "### Index\n<!-- index generated using github.com/GreyKeenan/pj.ghmd -->\n\n"
-const output_Follower = "\n---\n\n"
+const output_Leader = "> auto-index ~~courtesy~~ fault of github.com/GreyKeenan/pj.ghmd\n<!-- index generated using github.com/GreyKeenan/pj.ghmd -->\n\n"
 
 /*
 func buildHeaderId(ic *indexCounter, level int, splitter string) string {
@@ -21,17 +20,36 @@ func buildHeaderId(ic *indexCounter, level int, splitter string) string {
 }
 */
 
-func buildIndexLine(ic *indexCounter, header gfm.Header, bullet string) string {
-	ic.increment(header.Level)
+func buildIndexFollower(ic *indexCounter) string {
 	var s string
-	for i := 1; i < header.Level; i++ { //TODO ERR if first header isnt lvl 1, then, it will indent all
-		s += "\t"
+
+	for i := 0; i < ic.previousLevel; i++ {
+		s += "</ul>"
 	}
-	return s + bullet + "[" + string(header.Text) + "]" + buildIndexAnchor(ic, header) + "\n"
+	ic.previousLevel = 0
+
+	return s + "\n" + "\n---\n\n"
+}
+
+func buildIndexLine(ic *indexCounter, header gfm.Header) string {
+	ic.increment(header.Level)
+	var s string 
+
+	for i := header.Level; i > ic.previousLevel; i-- {
+		s += "<ul>"
+	}
+	for i := header.Level; i < ic.previousLevel; i++ {
+		s += "</ul>"
+	}
+	s += "\n"
+
+	s += "<li><a href=\"" + buildIndexAnchor(ic, header) + "\">" + string(header.Text) + "</a></li>\n"
+	ic.previousLevel = header.Level
+	return s
 }
 
 func buildIndexAnchor(ic *indexCounter, header gfm.Header) string {
-	var s string = "(#"
+	var s string = "#"
 
 	//TODO: add id
 
@@ -55,7 +73,6 @@ func buildIndexAnchor(ic *indexCounter, header gfm.Header) string {
 		s += string(unicode.ToLower(v))
 	}
 
-	s += ")"
 	return s
 }
 /*

@@ -3,6 +3,7 @@ package index
 
 type indexCounter struct {
 	levelCounts [6]int
+	previousLevel int
 }
 func (self *indexCounter) increment(level int) {
 	self.levelCounts[level]++

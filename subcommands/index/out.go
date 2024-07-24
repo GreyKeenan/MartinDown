@@ -43,14 +43,14 @@ func write_index(outputFile *os.File, headers []gfm.Header) error {
 
 
 	for _,v := range headers {
-		_, err = outputFile.WriteString(buildIndexLine(&ic, v, "* "))
+		_, err = outputFile.WriteString(buildIndexLine(&ic, v))
 		if (err != nil) {
 			return err
 		}
 	}
 
 
-	_, err = outputFile.WriteString(output_Follower)
+	_, err = outputFile.WriteString(buildIndexFollower(&ic))
 	if (err != nil) {
 		return err
 	}
