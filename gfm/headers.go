@@ -2,23 +2,17 @@
 package gfm
 
 type Header struct {
-	level int
+	Level int
 	Text []rune
 }
 
 const (
-	header_Not = 0
-	Header_Not = -1
 	header_MaxIndent = 3
 	header_MaxLevel = 6
 	header_Rune = '#'
 )
-
-func (self *Header) GetLevel() int {
-	return self.level - 1
-}
 func (self *Header) IsHeader() bool {
-	return self.level != header_Not
+	return self.Level != 0
 }
 
 // For now, gfm assumes it is given a full line, & that line does not have a newline char at the end
@@ -35,7 +29,7 @@ func GetHeader(runes []rune) (self Header) {
 	var measured bool
 	for i,r := range runes {
 		if (CountSpaces(r) > 0 || IsLineEnding(r)) {
-			self.level = i
+			self.Level = i
 			measured = true
 			break
 		}
@@ -45,14 +39,14 @@ func GetHeader(runes []rune) (self Header) {
 	}
 
 	if (!measured) {
-		self.level = len(runes)
+		self.Level = len(runes)
 		return
 	}
-	if (self.level > header_MaxLevel) {
-		self.level = header_Not
+	if (self.Level > header_MaxLevel) {
+		self.Level = 0
 		return
 	}
 
-	self.Text = runes[self.level:]
+	self.Text = runes[self.Level:]
 	return
 }

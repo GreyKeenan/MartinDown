@@ -26,3 +26,20 @@ func CountIndent(runes []rune) int {
 
 	return CountIndent_Blankline
 }
+
+func StripWhitespace_left(runes []rune) []rune {
+	for i:= 0; i < len(runes); i++ {
+		if (!IsWhitespace(runes[i])) {
+			return runes[i:]
+		}
+	}
+	return []rune{}
+}
+func StripWhitespace_right(runes []rune) []rune {
+	for i:= len(runes) - 1; i >= 0; i-- {
+		if (!IsWhitespace(runes[i])) {
+			return runes[:i + 1]
+		}
+	}
+	return []rune{}
+}
