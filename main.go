@@ -2,27 +2,47 @@
 package main
 
 import (
-	"os"
 	"fmt"
 
 	"github.com/GreyKeenan/pj.ghmd/subcommands/index"
+	"github.com/GreyKeenan/pj.ghmd/sealeye"
 
 )
 
 const VERSION = "v0.0.0"
 
 func main() {
-	// identify subcommand
 
-	if (len(os.Args) == 1) {
-		fmt.Println(os.Args[0], VERSION)
+	var err error
+
+	var swimmer sealeye.Swimmer = sealeye.NewSwimmer(buildCommand_root())
+
+	var cmd sealeye.CommandResponse
+	var finished bool
+
+	err, cmd, finished = swimmer.Swim()
+	if err != nil {
+		panic(err)
+	}
+	if finished {
+		fmt.Println(VERSION)
 		return
 	}
 	
-	switch (os.Args[1]) {
-		case "index":
-			index.Main(os.Args[1:])
-		default:
-			fmt.Printf("sub-command: \"%v\" not recognized. Currently, \"index\" is the only option.", os.Args[1])
+	for !finished {
+		err, cmd, finished = swimmer.Swim()
+		if err != nil {
+			panic(err)
+		}
+		fmt.Println(cmd.String())
+
+		switch (cmd.Keyword) {
+			case "index":
+				index.Main(cmd)
+				return
+			default:
+				panic("Unrecognized Subcommand Keyword")
+		}
 	}
+
 }

@@ -1,4 +1,7 @@
 package sealeye
+import (
+	"fmt"
+)
 
 const OverflowMax_Unbound = -1
 
@@ -17,3 +20,13 @@ type CommandResponse struct {
 	Overflow []string
 }
 
+func (self *CommandResponse) String() string {
+	var s string = self.Keyword + "\nFlags:\n"
+
+	for _,v := range self.Flags {
+		s += fmt.Sprintln(v)
+	}
+	s += "Overflow:" + fmt.Sprint(self.Overflow)
+
+	return s
+}

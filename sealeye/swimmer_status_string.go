@@ -18,18 +18,16 @@ func _() {
 	_ = x[Swimmer_Error_Underflow_End-7]
 	_ = x[Swimmer_Error_Underflow_Subcommand-8]
 	_ = x[Swimmer_Error_Overflow-9]
-	_ = x[Swimmer_End-0]
-	_ = x[Swimmer_Helped - -1]
+	_ = x[Swimmer_Helped-0]
 }
 
-const _Swimmer_Status_name = "Swimmer_HelpedSwimmer_ErrorSwimmer_Error_FlagSwimmer_Error_Flag_TypeSwimmer_Error_Flag_UnrecognizedSwimmer_Error_Flag_NotFoundSwimmer_Error_UnderflowSwimmer_Error_Underflow_FlagSwimmer_Error_Underflow_EndSwimmer_Error_Underflow_SubcommandSwimmer_Error_Overflow"
+const _Swimmer_Status_name = "Swimmer_ErrorSwimmer_Error_FlagSwimmer_Error_Flag_TypeSwimmer_Error_Flag_UnrecognizedSwimmer_Error_Flag_NotFoundSwimmer_Error_UnderflowSwimmer_Error_Underflow_FlagSwimmer_Error_Underflow_EndSwimmer_Error_Underflow_SubcommandSwimmer_Error_Overflow"
 
-var _Swimmer_Status_index = [...]uint16{0, 14, 27, 45, 68, 99, 126, 149, 177, 204, 238, 260}
+var _Swimmer_Status_index = [...]uint8{0, 13, 31, 54, 85, 112, 135, 163, 190, 224, 246}
 
 func (i Swimmer_Status) String() string {
-	i -= -1
 	if i < 0 || i >= Swimmer_Status(len(_Swimmer_Status_index)-1) {
-		return "Swimmer_Status(" + strconv.FormatInt(int64(i+-1), 10) + ")"
+		return "Swimmer_Status(" + strconv.FormatInt(int64(i), 10) + ")"
 	}
 	return _Swimmer_Status_name[_Swimmer_Status_index[i]:_Swimmer_Status_index[i+1]]
 }

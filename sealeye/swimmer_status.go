@@ -17,9 +17,8 @@ const (
 	Swimmer_Error_Underflow_Subcommand
 	Swimmer_Error_Overflow
 )
-const (
-	Swimmer_End Swimmer_Status = 0 - iota
-	Swimmer_Helped
+const ( //TODO errs should only be errs. Not helped
+	Swimmer_Helped Swimmer_Status = 0 - iota
 )
 
 func (self Swimmer_Status) Error() string {

@@ -7,23 +7,17 @@ import (
 	"bufio"
 
 	"github.com/GreyKeenan/pj.ghmd/gfm"
+	"github.com/GreyKeenan/pj.ghmd/sealeye"
 )
 
-func Main(args []string) {
+func Main(cmd sealeye.CommandResponse) {
 
 	var err error
 
-	if (len(args) == 1) {
-		fmt.Println("No file path given.")
-		return
-	}
-
-	// check for flags in the future
-
 	var inputFile *os.File
-	inputFile, err = os.Open(args[1])
+	inputFile, err = os.Open(cmd.Overflow[0])
 	if (err != nil) {
-		fmt.Println("Error opening file:", args[1])
+		fmt.Println("Error opening file:", cmd.Overflow[0])
 		return
 	}
 	defer inputFile.Close()
@@ -32,22 +26,22 @@ func Main(args []string) {
 
 	headers, err = readHeaders(inputFile)
 	if (err != nil) {
-		fmt.Println("Error reading file:", args[1])
+		fmt.Println("Error reading file:", cmd.Overflow[0])
 		return
 	}
 
 
 	var outputPath string
 
-	if (len(args) == 2) {
-		outputPath = "autoindexed-" + args[1] //TODO ERR if prefixed with dir this doesnt work properly
+	if (len(cmd.Overflow) == 1) {
+		outputPath = cmd.Overflow[0] + "-autoindex.md"
 	} else {
-		outputPath = args[2]
+		outputPath = cmd.Overflow[1]
 	}
 
 	_, err = inputFile.Seek(0, 0)
 	if (err != nil) {
-		fmt.Println("Failed to write output to:", outputPath) //TODO
+		fmt.Println("Failed to write output to:", outputPath)
 		return
 	}
 	err = write(outputPath, headers, inputFile)

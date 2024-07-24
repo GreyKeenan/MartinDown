@@ -40,7 +40,7 @@ func (self *Swimmer) nextArg() bool {
 	return self.pos >= len(self.args)
 }
 
-func (self *Swimmer) Swim() (error, CommandResponse) {
+func (self *Swimmer) Swim() (error, CommandResponse, bool) {
 
 	self.response.Keyword = self.current()
 
@@ -55,10 +55,10 @@ func (self *Swimmer) Swim() (error, CommandResponse) {
 	for {
 		if (self.nextArg()) {
 			if len(self.response.Overflow) < self.cmd.OverflowMin {
-				return Swimmer_Error_Underflow_End, self.response
+				return Swimmer_Error_Underflow_End, self.response, true
 			}
 
-			return Swimmer_End, self.response
+			return nil, self.response, true
 		}
 
 		switch (self.deflagger.IsFlag(self.current())) {
@@ -66,47 +66,48 @@ func (self *Swimmer) Swim() (error, CommandResponse) {
 			case FlagType_Short:
 				shortFlag = self.deflagger.Deflag_short(self.current())
 				if ([]rune(shortFlag)[0] == 'h') {
-					return self.Help(), self.response
+					return self.Help(), self.response, false
 				}
 				for _,v := range shortFlag {
 					longFlag, exists = self.cmd.ShortFlags[v]
 					if (!exists) {
-						return Swimmer_Error_Flag_NotFound, self.response
+						return Swimmer_Error_Flag_NotFound, self.response, false
 					}
 					err = self.addFlag(longFlag)
 					if (err != nil) {
-						return err, self.response
+						return err, self.response, false
 					}
 				}
 				continue
 			case FlagType_Long:
 				longFlag = self.deflagger.Deflag_long(self.current())
 				if (longFlag == "help") {
-					return self.Help(), self.response
+					return self.Help(), self.response, false
 				}
 				err = self.addFlag(longFlag)
 				if (err != nil) {
-					return err, self.response
+					return err, self.response, false
 				}
 				continue
 			default:
-				return Swimmer_Error_Flag_Type, self.response
+				return Swimmer_Error_Flag_Type, self.response, false
 		}
 		
 		nextCmd, exists = self.cmd.Subcommands[self.current()]
 		if (exists) {
 
-			self.cmd = nextCmd
 			
 			if len(self.response.Overflow) < self.cmd.OverflowMin {
-				return Swimmer_Error_Underflow_Subcommand, self.response
+				self.cmd = nextCmd
+				return Swimmer_Error_Underflow_Subcommand, self.response, false
 			}
 
-			return nil, self.response
+			self.cmd = nextCmd
+			return nil, self.response, false
 		}
 
 		if len(self.response.Overflow) >= self.cmd.OverflowMax {
-			return Swimmer_Error_Overflow, self.response
+			return Swimmer_Error_Overflow, self.response, false
 		}
 
 		self.response.Overflow = append(self.response.Overflow, self.current())
