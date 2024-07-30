@@ -4,7 +4,7 @@ package index
 import (
 	"unicode"
 
-	"github.com/GreyKeenan/pj.ghmd/gfm"
+	"github.com/GreyKeenan/MartinDown/gfm"
 )
 
 /*
@@ -19,7 +19,7 @@ func buildHeaderId(ic *indexCounter, level int, splitter string) string {
 */
 
 func buildIndexLeader() string {
-	return "> auto-index ~~courtesy~~ fault of github.com/GreyKeenan/pj.ghmd\n<!-- index generated using github.com/GreyKeenan/pj.ghmd -->\n\n"
+	return "> auto-index ~~courtesy~~ fault of github.com/GreyKeenan/MartinDown\n<!-- index generated using github.com/GreyKeenan/MartinDown -->\n\n"
 }
 func buildIndexFollower(ic *indexCounter) string {
 	var s string

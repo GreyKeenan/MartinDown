@@ -1,7 +1,7 @@
 package main
 import (
 
-	"github.com/GreyKeenan/pj.ghmd/sealeye"
+	"github.com/GreyKeenan/MartinDown/sealeye"
 )
 
 func buildCommand_root() *sealeye.CommandSpec {

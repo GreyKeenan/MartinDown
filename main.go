@@ -4,8 +4,8 @@ package main
 import (
 	"fmt"
 
-	"github.com/GreyKeenan/pj.ghmd/subcommands/index"
-	"github.com/GreyKeenan/pj.ghmd/sealeye"
+	"github.com/GreyKeenan/MartinDown/subcommands/index"
+	"github.com/GreyKeenan/MartinDown/sealeye"
 
 )
 

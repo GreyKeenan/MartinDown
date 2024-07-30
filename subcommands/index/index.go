@@ -6,8 +6,8 @@ import (
 	"os"
 	"bufio"
 
-	"github.com/GreyKeenan/pj.ghmd/gfm"
-	"github.com/GreyKeenan/pj.ghmd/sealeye"
+	"github.com/GreyKeenan/MartinDown/gfm"
+	"github.com/GreyKeenan/MartinDown/sealeye"
 )
 
 func Main(cmd sealeye.CommandResponse) {

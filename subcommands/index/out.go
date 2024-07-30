@@ -3,7 +3,7 @@ import (
 	"os"
 	"bufio"
 
-	"github.com/GreyKeenan/pj.ghmd/gfm"
+	"github.com/GreyKeenan/MartinDown/gfm"
 )
 
 func write(outputPath string, headers []gfm.Header, inputFile *os.File) error {
